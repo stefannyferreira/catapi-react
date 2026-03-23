@@ -1,10 +1,16 @@
 import { catClient } from "../api/catClint";
 
-export async function getRandomCat() {
-  const data = await catClient("images/search");
+const BASE_URL = "https://api.thecatapi.com/v1";
+
+export async function getRandomCat(breedId = "") {
+  const url = breedId
+    ? `${BASE_URL}/images/search?breed_ids=${breedId}`
+    : `${BASE_URL}/images/search`;
+
+  const data = await catClient(url);
   return data[0];
 }
 
 export async function getBreeds() {
-  return catClient("breeds");
+  return catClient(`${BASE_URL}/breeds`);
 }

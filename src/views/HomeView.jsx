@@ -1,5 +1,9 @@
 import styled from "styled-components";
+import { useState } from "react";
+
 import { useCats } from "../hooks/useCat";
+import { useBreeds } from "../hooks/useBreeds";
+
 import ControlsBar from "../components/ControlsBar";
 import CatCard from "../components/CatCard";
 import { Header } from "../components/Header";
@@ -25,13 +29,33 @@ const CardContainer = styled.div`
 function HomeView() {
   const { cat, loading, error, loadCat } = useCats();
 
+  const { breeds } = useBreeds();
+
+  const [selectedBreed, setSelectedBreed] = useState("");
+
+  function handleSearch() {
+    loadCat(selectedBreed);
+  }
+
   return (
     <Page>
       <Container>
         <Header />
+
         <CardContainer>
-          <ControlsBar onSearch={loadCat} />
-          <CatCard cat={cat} loading={loading} error={error} onNext={loadCat} />
+          <ControlsBar
+            breeds={breeds}
+            selectedBreed={selectedBreed}
+            onSelectBreed={setSelectedBreed}
+            onSearch={handleSearch}
+          />
+
+          <CatCard
+            cat={cat}
+            loading={loading}
+            error={error}
+            onNext={handleSearch}
+          />
         </CardContainer>
       </Container>
     </Page>

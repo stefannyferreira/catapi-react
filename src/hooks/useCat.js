@@ -3,17 +3,15 @@ import { getRandomCat } from "../services/catApi";
 
 export function useCats() {
   const [cat, setCat] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  async function loadCat() {
+  async function loadCat(breedId = "") {
     try {
-      setLoading(true);
       setError("");
-      const data = await getRandomCat();
+      const data = await getRandomCat(breedId);
       setCat(data);
-    // eslint-disable-next-line no-unused-vars
-    } catch (err) {
+    } catch {
       setError("Não foi possível carregar o gato.");
     } finally {
       setLoading(false);
