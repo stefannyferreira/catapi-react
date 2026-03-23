@@ -1,15 +1,8 @@
 import styled from "styled-components";
+import CatImage from "./CatImage";
 
 const Container = styled.div`
   text-align: left;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  max-height: 480px;
-  object-fit: cover;
-  border-radius: 16px;
-  display: block;
 `;
 
 const Content = styled.div`
@@ -68,16 +61,19 @@ function CatCard({
   isFavorite,
   selectedBreedData,
 }) {
-  if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
-  if (!cat) return null;
+  if (!cat && !loading) return null;
 
-  const apiBreed = cat.breeds?.[0];
+  const apiBreed = cat?.breeds?.[0];
   const breed = apiBreed || selectedBreedData;
 
   return (
     <Container>
-      <Image src={cat.url} alt={breed?.name || "Gato"} />
+      <CatImage
+        key={cat?.url || "loading"}
+        src={cat?.url}
+        alt={breed?.name || "Gato"}
+      />
 
       <Content>
         <Title>{breed?.name || "Gato aleatório"}</Title>
