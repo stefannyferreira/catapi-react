@@ -1,47 +1,109 @@
 import styled from "styled-components";
-import { useFavorites } from "../hooks/useFavorites";
 
 const Container = styled.div`
-  text-align: center;
+  text-align: left;
 `;
 
 const Image = styled.img`
-  max-width: 100%;
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
   border-radius: 16px;
+  display: block;
+`;
+
+const Content = styled.div`
+  margin-top: 16px;
+`;
+
+const Title = styled.h2`
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #002233;
+`;
+
+const Info = styled.p`
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #405466;
+`;
+
+const Description = styled.p`
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #405466;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
 `;
 
 const Button = styled.button`
-  margin-top: 12px;
   padding: 10px 16px;
   border-radius: 12px;
-  border: none;
-  background: #0077b2;
-  color: white;
+  border: 1px solid #d6dbde;
+  background: #ffffff;
+  color: #002233;
   cursor: pointer;
+  font-weight: 600;
 `;
 
-function CatCard({ cat, loading, error, onNext }) {
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+const PrimaryButton = styled(Button)`
+  background: #0077b2;
+  border-color: #0077b2;
+  color: #ffffff;
+`;
 
+function CatCard({
+  cat,
+  loading,
+  error,
+  onNext,
+  onToggleFavorite,
+  isFavorite,
+  selectedBreedData,
+}) {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
   if (!cat) return null;
 
-  const favorite = isFavorite(cat.id);
+  const apiBreed = cat.breeds?.[0];
+  const breed = apiBreed || selectedBreedData;
 
   return (
     <Container>
-      <Image src={cat.url} alt="cat" />
+      <Image src={cat.url} alt={breed?.name || "Gato"} />
 
-      <div>
-        <Button onClick={onNext}>Novo gato</Button>
+      <Content>
+        <Title>{breed?.name || "Gato aleatório"}</Title>
 
-        <Button
-          onClick={() => (favorite ? removeFavorite(cat.id) : addFavorite(cat))}
-        >
-          {favorite ? "Remover ❤️" : "Favoritar 🤍"}
-        </Button>
-      </div>
+        <Info>
+          <strong>Origem:</strong> {breed?.origin || "Não informada"}
+        </Info>
+
+        <Info>
+          <strong>Temperamento:</strong> {breed?.temperament || "Não informado"}
+        </Info>
+
+        <Info>
+          <strong>Expectativa de vida:</strong>{" "}
+          {breed?.life_span || "Não informada"}
+        </Info>
+
+        {breed?.description && <Description>{breed.description}</Description>}
+
+        <Actions>
+          <PrimaryButton onClick={onNext}>Novo gato</PrimaryButton>
+          <Button onClick={() => onToggleFavorite(cat)}>
+            {isFavorite ? "Remover ❤️" : "Favoritar 🤍"}
+          </Button>
+        </Actions>
+      </Content>
     </Container>
   );
 }

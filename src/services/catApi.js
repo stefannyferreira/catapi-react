@@ -5,7 +5,7 @@ const BASE_URL = "https://api.thecatapi.com/v1";
 export async function getRandomCat(breedId = "") {
   const url = breedId
     ? `${BASE_URL}/images/search?breed_ids=${breedId}`
-    : `${BASE_URL}/images/search`;
+    : `${BASE_URL}/images/search?has_breeds=1&limit=1`;
 
   const data = await catClient(url);
   return data[0];
