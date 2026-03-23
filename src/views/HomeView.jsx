@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useCats } from "../hooks/useCat";
 import ControlsBar from "../components/ControlsBar";
 import CatCard from "../components/CatCard";
+import { Header } from "../components/Header";
 
 const Page = styled.div`
   min-height: 100vh;
@@ -27,6 +28,7 @@ function HomeView() {
   return (
     <Page>
       <Container>
+        <Header />
         <CardContainer>
           <ControlsBar onSearch={loadCat} />
           <CatCard cat={cat} loading={loading} error={error} onNext={loadCat} />
