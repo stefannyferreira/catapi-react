@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 import logo from "../../assets/logo.svg";
 
 const Wrapper = styled.div`
@@ -20,6 +22,7 @@ const Container = styled.header`
   justify-content: space-between;
   padding: 0 24px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  position: relative;
 `;
 
 const Brand = styled.div`
@@ -43,10 +46,17 @@ const Logo = styled.img`
   height: 130px;
 `;
 
+const Title = styled.h1`
+  font-size: 20px;
+  font-weight: 600;
+  color: #002233;
+`;
+
 const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
 `;
 
 const ActionButton = styled.button`
@@ -71,7 +81,50 @@ const ActionButton = styled.button`
   }
 `;
 
+const SettingsWrapper = styled.div`
+  position: relative;
+`;
+
+const LanguageMenu = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: #ffffff;
+  border: 1px solid #d6dbde;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  z-index: 20;
+`;
+
+const LanguageLabel = styled.label`
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #002233;
+  margin-bottom: 8px;
+`;
+
+const LanguageSelect = styled.select`
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d6dbde;
+  background: #ffffff;
+  color: #002233;
+  font-size: 14px;
+`;
+
 export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
+  const { i18n } = useTranslation();
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+
+  function handleLanguageChange(event) {
+    i18n.changeLanguage(event.target.value);
+    setShowLanguageMenu(false);
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -81,6 +134,7 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
 
         <Actions>
           <ActionButton
+            type="button"
             title="Buscar"
             onClick={onOpenSearch}
             $active={activePanel === "search"}
@@ -89,12 +143,40 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
           </ActionButton>
 
           <ActionButton
+            type="button"
             title="Favoritos"
             onClick={onOpenFavorites}
             $active={activePanel === "favorites"}
           >
             ❤️
           </ActionButton>
+
+          <SettingsWrapper>
+            <ActionButton
+              type="button"
+              title="Idioma"
+              onClick={() => setShowLanguageMenu((prev) => !prev)}
+              $active={showLanguageMenu}
+            >
+              ⚙️
+            </ActionButton>
+
+            {showLanguageMenu && (
+              <LanguageMenu>
+                <LanguageLabel htmlFor="language-select">Idioma</LanguageLabel>
+
+                <LanguageSelect
+                  id="language-select"
+                  value={i18n.language}
+                  onChange={handleLanguageChange}
+                >
+                  <option value="pt-BR">Português</option>
+                  <option value="en">Inglês</option>
+                  <option value="es">Espanhol</option>
+                </LanguageSelect>
+              </LanguageMenu>
+            )}
+          </SettingsWrapper>
         </Actions>
       </Container>
     </Wrapper>

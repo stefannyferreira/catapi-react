@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 import CatImage from "../CatImage/CatImage";
 import ErrorSnackbar from "../ErrorSnackbar/ErrorSnackbar";
 
@@ -66,6 +67,8 @@ function CatCard({
   isFavorite,
   selectedBreedData,
 }) {
+  const { t } = useTranslation("CatCard");
+
   if (!cat && !loading && !error) return null;
 
   const apiBreed = cat?.breeds?.[0];
@@ -77,7 +80,7 @@ function CatCard({
       {error && (
         <SnackbarWrapper>
           <ErrorSnackbar
-            title="Não foi possível carregar o gato"
+            title={t("errorTitle")}
             message={error}
             onRetry={onNext}
           />
@@ -87,26 +90,27 @@ function CatCard({
       <CatImage
         key={cat?.url || "loading"}
         src={cat?.url}
-        alt={breed?.name || "Gato"}
+        alt={breed?.name || t("defaultAlt")}
       />
 
       <Content>
-        <Title>{hasBreed ? breed.name : "Gato aleatório"}</Title>
+        <Title>{hasBreed ? breed.name : t("randomTitle")}</Title>
 
         {hasBreed ? (
           <>
             <Info>
-              <strong>Origem:</strong> {breed.origin || "Não informada"}
+              <strong>{t("origin")}:</strong>{" "}
+              {breed.origin || t("originFallback")}
             </Info>
 
             <Info>
-              <strong>Temperamento:</strong>{" "}
-              {breed.temperament || "Não informado"}
+              <strong>{t("temperament")}:</strong>{" "}
+              {breed.temperament || t("temperamentFallback")}
             </Info>
 
             <Info>
-              <strong>Expectativa de vida:</strong>{" "}
-              {breed.life_span || "Não informada"}
+              <strong>{t("lifeSpan")}:</strong>{" "}
+              {breed.life_span || t("lifeSpanFallback")}
             </Info>
 
             {breed.description && (
@@ -114,19 +118,17 @@ function CatCard({
             )}
           </>
         ) : (
-          <Description>
-            Explore gatos aleatórios de diferentes raças 🐱
-          </Description>
+          <Description>{t("randomDescription")}</Description>
         )}
 
         <Actions>
           <PrimaryButton type="button" onClick={onNext}>
-            Novo gato
+            {t("nextCat")}
           </PrimaryButton>
 
           {cat && (
             <Button type="button" onClick={() => onToggleFavorite(cat)}>
-              {isFavorite ? "Remover ❤️" : "Favoritar 🤍"}
+              {isFavorite ? t("removeFavorite") : t("addFavorite")}
             </Button>
           )}
         </Actions>

@@ -1,0 +1,15 @@
+{
+  "errorTitle": "Não foi possível carregar o gato",
+  "defaultAlt": "Gato",
+  "randomTitle": "Gato aleatório",
+  "origin": "Origem",
+  "originFallback": "Não informada",
+  "temperament": "Temperamento",
+  "temperamentFallback": "Não informado",
+  "lifeSpan": "Expectativa de vida",
+  "lifeSpanFallback": "Não informada",
+  "randomDescription": "Explore gatos aleatórios de diferentes raças 🐱",
+  "nextCat": "Novo gato",
+  "removeFavorite": "Remover ❤️",
+  "addFavorite": "Favoritar 🤍"
+}

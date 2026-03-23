@@ -1,0 +1,15 @@
+{
+  "errorTitle": "Could not load the cat",
+  "defaultAlt": "Cat",
+  "randomTitle": "Random cat",
+  "origin": "Origin",
+  "originFallback": "Not informed",
+  "temperament": "Temperament",
+  "temperamentFallback": "Not informed",
+  "lifeSpan": "Life span",
+  "lifeSpanFallback": "Not informed",
+  "randomDescription": "Explore random cats from different breeds 🐱",
+  "nextCat": "New cat",
+  "removeFavorite": "Remove ❤️",
+  "addFavorite": "Favorite 🤍"
+}

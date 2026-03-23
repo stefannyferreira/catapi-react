@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   display: flex;
@@ -23,6 +24,8 @@ const Button = styled.button`
 `;
 
 function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {
+  const { t } = useTranslation("ControlsBar");
+
   function handleChange(event) {
     const value = event.target.value;
     onSelectBreed(value);
@@ -32,7 +35,7 @@ function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {
   return (
     <Container>
       <Select value={selectedBreed} onChange={handleChange}>
-        <option value="">Todas as raças</option>
+        <option value="">{t("allBreeds")}</option>
         {breeds.map((breed) => (
           <option key={breed.id} value={breed.id}>
             {breed.name}
@@ -40,7 +43,9 @@ function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {
         ))}
       </Select>
 
-      <Button onClick={() => onSearch(selectedBreed)}>Buscar</Button>
+      <Button type="button" onClick={() => onSearch(selectedBreed)}>
+        {t("search")}
+      </Button>
     </Container>
   );
 }
