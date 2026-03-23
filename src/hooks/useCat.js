@@ -12,7 +12,7 @@ export function useCats() {
       const data = await getRandomCat(breedId);
       setCat(data);
     } catch {
-      setError("Não foi possível carregar o gato.");
+      setError("Verifique sua conexão e tente novamente.");
     } finally {
       setLoading(false);
     }

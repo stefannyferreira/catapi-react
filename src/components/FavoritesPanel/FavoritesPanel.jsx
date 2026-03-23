@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import FavoriteModal from "./FavoritesModal";
+import FavoriteModal from "../FavoritesModal";
 
 const Panel = styled.div`
   margin-top: 16px;

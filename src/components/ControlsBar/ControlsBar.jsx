@@ -23,12 +23,15 @@ const Button = styled.button`
 `;
 
 function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {
+  function handleChange(event) {
+    const value = event.target.value;
+    onSelectBreed(value);
+    onSearch(value);
+  }
+
   return (
     <Container>
-      <Select
-        value={selectedBreed}
-        onChange={(e) => onSelectBreed(e.target.value)}
-      >
+      <Select value={selectedBreed} onChange={handleChange}>
         <option value="">Todas as raças</option>
         {breeds.map((breed) => (
           <option key={breed.id} value={breed.id}>
@@ -37,7 +40,7 @@ function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {
         ))}
       </Select>
 
-      <Button onClick={onSearch}>Buscar</Button>
+      <Button onClick={() => onSearch(selectedBreed)}>Buscar</Button>
     </Container>
   );
 }

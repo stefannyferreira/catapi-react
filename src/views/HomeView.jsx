@@ -5,10 +5,10 @@ import { useCats } from "../hooks/useCat";
 import { useBreeds } from "../hooks/useBreeds";
 import { useFavorites } from "../hooks/useFavorites";
 
-import ControlsBar from "../components/ControlsBar";
-import CatCard from "../components/CatCard";
-import FavoritesPanel from "../components/FavoritesPanel";
-import { Header } from "../components/Header";
+import ControlsBar from "../components/ControlsBar/ControlsBar";
+import CatCard from "../components/CatCard/CatCard";
+import FavoritesPanel from "../components/FavoritesPanel/FavoritesPanel";
+import { Header } from "../components/Header/Header";
 
 const Page = styled.div`
   min-height: 100vh;
@@ -40,8 +40,8 @@ function HomeView() {
     return breeds.find((breed) => breed.id === selectedBreed) || null;
   }, [breeds, selectedBreed]);
 
-  function handleSearch() {
-    loadCat(selectedBreed);
+  function handleSearch(breedId = selectedBreed) {
+    loadCat(breedId);
   }
 
   function handleToggleFavorite(catData) {
