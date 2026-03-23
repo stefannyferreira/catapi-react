@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CatImage from "../CatImage/CatImage";
-import ErrorSnackbar from "../ErrorSnackbar";
+import ErrorSnackbar from "../ErrorSnackbar/ErrorSnackbar";
 
 const Container = styled.div`
   text-align: left;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 
 const Wrapper = styled.div`
   width: 100%;
