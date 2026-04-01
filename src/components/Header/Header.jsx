@@ -23,6 +23,12 @@ const Container = styled.header`
   padding: 0 24px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
 `;
 
 const Brand = styled.div`
@@ -31,32 +37,22 @@ const Brand = styled.div`
   gap: 12px;
 `;
 
-const LogoWrapper = styled.div`
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  background: #eceeef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Logo = styled.img`
   width: 140px;
   height: 130px;
 `;
 
-const Title = styled.h1`
-  font-size: 20px;
-  font-weight: 600;
-  color: #002233;
-`;
 
 const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-end;
+  }
 `;
 
 const ActionButton = styled.button`
@@ -117,7 +113,7 @@ const LanguageSelect = styled.select`
 `;
 
 export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation("Header");
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   function handleLanguageChange(event) {
@@ -135,7 +131,7 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
         <Actions>
           <ActionButton
             type="button"
-            title="Buscar"
+            title={t("search")}
             onClick={onOpenSearch}
             $active={activePanel === "search"}
           >
@@ -144,7 +140,7 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
 
           <ActionButton
             type="button"
-            title="Favoritos"
+            title={t("favorites")}
             onClick={onOpenFavorites}
             $active={activePanel === "favorites"}
           >
@@ -154,7 +150,7 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
           <SettingsWrapper>
             <ActionButton
               type="button"
-              title="Idioma"
+              title={t("language")}
               onClick={() => setShowLanguageMenu((prev) => !prev)}
               $active={showLanguageMenu}
             >
@@ -163,16 +159,18 @@ export function Header({ activePanel, onOpenSearch, onOpenFavorites }) {
 
             {showLanguageMenu && (
               <LanguageMenu>
-                <LanguageLabel htmlFor="language-select">Idioma</LanguageLabel>
+                <LanguageLabel htmlFor="language-select">
+                  {t("language")}
+                </LanguageLabel>
 
                 <LanguageSelect
                   id="language-select"
                   value={i18n.language}
                   onChange={handleLanguageChange}
                 >
-                  <option value="pt-BR">Português</option>
-                  <option value="en">Inglês</option>
-                  <option value="es">Espanhol</option>
+                  <option value="pt-BR">{t("portuguese")}</option>
+                  <option value="en">{t("english")}</option>
+                  <option value="es">{t("spanish")}</option>
                 </LanguageSelect>
               </LanguageMenu>
             )}

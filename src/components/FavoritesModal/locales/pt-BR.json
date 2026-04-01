@@ -1,0 +1,11 @@
+{
+  "favoriteAlt": "Gato favorito",
+  "undefinedBreed": "Gato sem raça definida",
+  "origin": "Origem",
+  "originFallback": "Não informada",
+  "temperament": "Temperamento",
+  "temperamentFallback": "Não informado",
+  "lifeSpan": "Expectativa de vida",
+  "lifeSpanFallback": "Não informada",
+  "removeFavorite": "Remover dos favoritos"
+}

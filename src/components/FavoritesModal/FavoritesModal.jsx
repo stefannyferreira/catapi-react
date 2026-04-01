@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const ModalOverlay = styled.div`
+const Overlay = styled(motion.div)`
   position: fixed;
   inset: 0;
   background: rgba(0, 34, 51, 0.55);
@@ -11,9 +13,9 @@ const ModalOverlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContent = styled.div`
+const Content = styled(motion.div)`
   width: 100%;
-  max-width: 860px;
+  max-width: 760px;
   max-height: 90vh;
   overflow-y: auto;
   background: #ffffff;
@@ -84,53 +86,70 @@ const RemoveButton = styled.button`
 `;
 
 function FavoriteModal({ cat, onClose, onRemoveFavorite }) {
-  if (!cat) return null;
-
-  const breed = cat.breeds?.[0];
+  const { t } = useTranslation("FavoritesModal");
+  const breed = cat?.breeds?.[0];
 
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(event) => event.stopPropagation()}>
-        <ModalHeader>
-          <CloseButton type="button" onClick={onClose}>
-            ×
-          </CloseButton>
-        </ModalHeader>
-
-        <ModalImage src={cat.url} alt={breed?.name || "Gato favorito"} />
-
-        <ModalTitle>{breed?.name || "Gato sem raça definida"}</ModalTitle>
-
-        <ModalInfo>
-          <strong>Origem:</strong> {breed?.origin || "Não informada"}
-        </ModalInfo>
-
-        <ModalInfo>
-          <strong>Temperamento:</strong> {breed?.temperament || "Não informado"}
-        </ModalInfo>
-
-        <ModalInfo>
-          <strong>Expectativa de vida:</strong>{" "}
-          {breed?.life_span || "Não informada"}
-        </ModalInfo>
-
-        {breed?.description && (
-          <ModalDescription>{breed.description}</ModalDescription>
-        )}
-
-        <ModalActions>
-          <RemoveButton
-            type="button"
-            onClick={() => {
-              onRemoveFavorite(cat.id);
-              onClose();
-            }}
+    <AnimatePresence>
+      {cat && (
+        <Overlay
+          onClick={onClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Content
+            onClick={(event) => event.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
           >
-            Remover dos favoritos
-          </RemoveButton>
-        </ModalActions>
-      </ModalContent>
-    </ModalOverlay>
+            <ModalHeader>
+              <CloseButton type="button" onClick={onClose}>
+                ×
+              </CloseButton>
+            </ModalHeader>
+
+            <ModalImage src={cat.url} alt={breed?.name || t("favoriteAlt")} />
+
+            <ModalTitle>{breed?.name || t("undefinedBreed")}</ModalTitle>
+
+            <ModalInfo>
+              <strong>{t("origin")}:</strong>{" "}
+              {breed?.origin || t("originFallback")}
+            </ModalInfo>
+
+            <ModalInfo>
+              <strong>{t("temperament")}:</strong>{" "}
+              {breed?.temperament || t("temperamentFallback")}
+            </ModalInfo>
+
+            <ModalInfo>
+              <strong>{t("lifeSpan")}:</strong>{" "}
+              {breed?.life_span || t("lifeSpanFallback")}
+            </ModalInfo>
+
+            {breed?.description && (
+              <ModalDescription>{breed.description}</ModalDescription>
+            )}
+
+            <ModalActions>
+              <RemoveButton
+                type="button"
+                onClick={() => {
+                  onRemoveFavorite(cat.id);
+                  onClose();
+                }}
+              >
+                {t("removeFavorite")}
+              </RemoveButton>
+            </ModalActions>
+          </Content>
+        </Overlay>
+      )}
+    </AnimatePresence>
   );
 }
 

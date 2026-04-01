@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import FavoriteModal from "../FavoritesModal";
 
-const Panel = styled.div`
+const Panel = styled(motion.div)`
   margin-top: 16px;
   background: #ffffff;
   border: 1px solid #d6dbde;
@@ -17,7 +19,7 @@ const Title = styled.h2`
   margin: 0 0 16px;
 `;
 
-const EmptyState = styled.p`
+const EmptyState = styled(motion.p)`
   margin: 0;
   color: #405466;
 `;
@@ -28,7 +30,7 @@ const Grid = styled.div`
   gap: 16px;
 `;
 
-const FavoriteCard = styled.button`
+const FavoriteCard = styled(motion.button)`
   border: 1px solid #d6dbde;
   border-radius: 16px;
   overflow: hidden;
@@ -73,18 +75,58 @@ const RemoveButton = styled.button`
   cursor: pointer;
 `;
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+};
+
 function FavoritesPanel({ favorites, onRemoveFavorite }) {
+  const { t } = useTranslation("FavoritesPanel");
   const [selectedCat, setSelectedCat] = useState(null);
 
   return (
     <>
-      <Panel>
-        <Title>Favoritos</Title>
+      <Panel
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+      >
+        <Title>{t("title")}</Title>
 
         {favorites.length === 0 ? (
-          <EmptyState>Nenhum gato favoritado ainda.</EmptyState>
+          <EmptyState
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            {t("emptyState")}
+          </EmptyState>
         ) : (
-          <Grid>
+          <Grid
+            as={motion.div}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {favorites.map((cat) => {
               const breed = cat.breeds?.[0];
 
@@ -92,20 +134,23 @@ function FavoritesPanel({ favorites, onRemoveFavorite }) {
                 <FavoriteCard
                   key={cat.id}
                   type="button"
+                  variants={itemVariants}
+                  whileHover={{ y: -3, transition: { duration: 0.15 } }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedCat(cat)}
                 >
                   <FavoriteImage
                     src={cat.url}
-                    alt={breed?.name || "Gato favorito"}
+                    alt={breed?.name || t("favoriteAlt")}
                   />
 
                   <FavoriteContent>
                     <FavoriteName>
-                      {breed?.name || "Gato sem raça definida"}
+                      {breed?.name || t("undefinedBreed")}
                     </FavoriteName>
 
                     <FavoriteInfo>
-                      Origem {breed?.origin || "não informada"}
+                      {breed?.origin || t("unknownOrigin")}
                     </FavoriteInfo>
 
                     <RemoveButton
@@ -119,7 +164,7 @@ function FavoritesPanel({ favorites, onRemoveFavorite }) {
                         }
                       }}
                     >
-                      Remover dos favoritos
+                      {t("removeFavorite")}
                     </RemoveButton>
                   </FavoriteContent>
                 </FavoriteCard>

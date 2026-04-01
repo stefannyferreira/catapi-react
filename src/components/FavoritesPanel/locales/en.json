@@ -1,0 +1,8 @@
+{
+  "title": "Favorites",
+  "emptyState": "No favorited cats yet.",
+  "undefinedBreed": "Cat without defined breed",
+  "unknownOrigin": "Unknown origin",
+  "removeFavorite": "Remove from favorites",
+  "favoriteAlt": "Favorite cat"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Favoritos",
+  "emptyState": "Todavía no hay gatos favoritos.",
+  "undefinedBreed": "Gato sin raza definida",
+  "unknownOrigin": "Origen desconocido",
+  "removeFavorite": "Quitar de favoritos",
+  "favoriteAlt": "Gato favorito"
+}

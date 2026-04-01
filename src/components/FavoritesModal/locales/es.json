@@ -1,0 +1,11 @@
+{
+  "favoriteAlt": "Favorite cat",
+  "undefinedBreed": "Cat without defined breed",
+  "origin": "Origin",
+  "originFallback": "Not informed",
+  "temperament": "Temperament",
+  "temperamentFallback": "Not informed",
+  "lifeSpan": "Life span",
+  "lifeSpanFallback": "Not informed",
+  "removeFavorite": "Remove from favorites"
+}
