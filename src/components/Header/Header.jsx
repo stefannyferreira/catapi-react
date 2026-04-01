@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 const Container = styled.header`
   width: 100%;
   max-width: 1200px;
-  height: 80px;
+  max-height: 80px;
   background: #ffffff;
   border: 1px solid #d6dbde;
   border-radius: 16px;
@@ -27,7 +27,6 @@ const Container = styled.header`
   @media (max-width: 768px) {
     padding: 16px;
     gap: 16px;
-    flex-wrap: wrap;
   }
 `;
 
