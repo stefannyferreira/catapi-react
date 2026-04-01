@@ -116,7 +116,7 @@ function CatCard({
       )}
 
       {loading ? (
-        <Placeholder>{t("loading", "Carregando gato...")}</Placeholder>
+        <></>
       ) : cat?.url ? (
         <CatImage
           key={cat.url}

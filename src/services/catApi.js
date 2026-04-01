@@ -1,4 +1,4 @@
-import { catClient } from "../api/catClint";
+import { catClient } from "../api/catClient";
 
 const BASE_URL = "https://api.thecatapi.com/v1";
 
