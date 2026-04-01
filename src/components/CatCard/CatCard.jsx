@@ -66,11 +66,30 @@ const PrimaryButton = styled(Button)`
   color: #ffffff;
 `;
 
+const Placeholder = styled.div`
+  width: 100%;
+  min-height: 360px;
+  border-radius: 20px;
+  border: 1px solid #d6dbde;
+  background: #eceeef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #596b7a;
+  font-size: 16px;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    min-height: 260px;
+  }
+`;
+
 function CatCard({
   cat,
   loading,
   error,
   onNext,
+  onRetry,
   onToggleFavorite,
   isFavorite,
   selectedBreedData,
@@ -78,11 +97,11 @@ function CatCard({
 }) {
   const { t } = useTranslation("CatCard");
 
-  if (!cat && !loading && !error) return null;
-
   const apiBreed = cat?.breeds?.[0];
   const breed = apiBreed || selectedBreedData;
   const hasBreed = !!breed;
+
+  const showEmptyState = !loading && !error && !cat;
 
   return (
     <Container>
@@ -91,16 +110,26 @@ function CatCard({
           <ErrorSnackbar
             title={t("errorTitle")}
             message={error}
-            onRetry={onNext}
+            onRetry={onRetry}
           />
         </SnackbarWrapper>
       )}
 
-      <CatImage
-        key={cat?.url || "loading"}
-        src={cat?.url}
-        alt={breed?.name || t("defaultAlt")}
-      />
+      {loading ? (
+        <Placeholder>{t("loading", "Carregando gato...")}</Placeholder>
+      ) : cat?.url ? (
+        <CatImage
+          key={cat.url}
+          src={cat.url}
+          alt={breed?.name || t("defaultAlt")}
+        />
+      ) : (
+        <Placeholder>
+          {showEmptyState
+            ? t("emptyState", "Nenhum gato encontrado no momento.")
+            : t("imageUnavailable", "Imagem indisponível.")}
+        </Placeholder>
+      )}
 
       <Content>
         <Title>{hasBreed ? breed.name : t("randomTitle")}</Title>
@@ -109,20 +138,20 @@ function CatCard({
           <>
             <Info>
               <strong>{t("origin")}:</strong>{" "}
-              {breed.origin || t("originFallback")}
+              {breed?.origin || t("originFallback")}
             </Info>
 
             <Info>
               <strong>{t("temperament")}:</strong>{" "}
-              {breed.temperament || t("temperamentFallback")}
+              {breed?.temperament || t("temperamentFallback")}
             </Info>
 
             <Info>
               <strong>{t("lifeSpan")}:</strong>{" "}
-              {breed.life_span || t("lifeSpanFallback")}
+              {breed?.life_span || t("lifeSpanFallback")}
             </Info>
 
-            {breed.description && (
+            {breed?.description && (
               <Description>{breed.description}</Description>
             )}
           </>
@@ -135,7 +164,7 @@ function CatCard({
             {t("nextCat")}
           </PrimaryButton>
 
-          {cat && (
+          {!!cat?.id && (
             <Button type="button" onClick={() => onToggleFavorite(cat)}>
               {isFavorite ? t("removeFavorite") : t("addFavorite")}
             </Button>

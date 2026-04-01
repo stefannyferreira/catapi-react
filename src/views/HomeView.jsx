@@ -36,6 +36,7 @@ const CardContainer = styled.div`
     border-radius: 16px;
   }
 `;
+
 function HomeView() {
   const { cat, loading, error, loadCat } = useCats();
   const { breeds } = useBreeds();
@@ -52,7 +53,13 @@ function HomeView() {
     loadCat(breedId);
   }
 
+  function handleRetry() {
+    loadCat(selectedBreed);
+  }
+
   function handleToggleFavorite(catData) {
+    if (!catData?.id) return;
+
     if (isFavorite(catData.id)) {
       removeFavorite(catData.id);
       return;
@@ -61,7 +68,7 @@ function HomeView() {
     const completeCat = {
       ...catData,
       breeds:
-        catData.breeds && catData.breeds.length > 0
+        catData?.breeds?.length > 0
           ? catData.breeds
           : selectedBreedData
             ? [selectedBreedData]
@@ -91,12 +98,13 @@ function HomeView() {
               />
 
               <CatCard
-                cat={cat}
+                cat={cat ?? null}
                 loading={loading}
                 error={error}
                 onNext={handleSearch}
+                onRetry={handleRetry}
                 onToggleFavorite={handleToggleFavorite}
-                isFavorite={cat ? isFavorite(cat.id) : false}
+                isFavorite={cat?.id ? isFavorite(cat.id) : false}
                 selectedBreedData={selectedBreedData}
                 selectedBreed={selectedBreed}
               />

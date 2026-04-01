@@ -3,16 +3,18 @@ import { getRandomCat } from "../services/catApi";
 
 export function useCats() {
   const [cat, setCat] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function loadCat(breedId = "") {
+  async function loadCat() {
     try {
+      setLoading(true);
       setError("");
-      const data = await getRandomCat(breedId);
+
+      const data = await getRandomCat();
       setCat(data);
     } catch {
-      setError("Verifique sua conexão e tente novamente.");
+      setError("Não foi possível carregar o gato.");
     } finally {
       setLoading(false);
     }
