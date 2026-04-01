@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   display: flex;
@@ -76,11 +77,9 @@ const RetryButton = styled.button`
   cursor: pointer;
 `;
 
-function ErrorSnackbar({
-  title = "Não foi possível carregar o gato",
-  message = "Ocorreu um erro ao buscar os dados.",
-  onRetry,
-}) {
+function ErrorSnackbar({ title, message, onRetry }) {
+  const { t } = useTranslation("ErrorSnackbar");
+
   return (
     <Container>
       <Accent />
@@ -90,13 +89,13 @@ function ErrorSnackbar({
           <Icon>!</Icon>
 
           <TextBlock>
-            <Title>{title}</Title>
-            <Message>{message}</Message>
+            <Title>{title || t("title")}</Title>
+            <Message>{message || t("defaultMessage")}</Message>
           </TextBlock>
         </Left>
 
         <RetryButton type="button" onClick={onRetry}>
-          Tentar novamente
+          {t("retry")}
         </RetryButton>
       </Content>
     </Container>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { AnimatePresence, motion } from "framer-motion";
 
 const shimmer = keyframes`
   0% {
@@ -30,7 +31,7 @@ const ImageSkeleton = styled.div`
   inset: 0;
   background: linear-gradient(90deg, #eceeef 25%, #f5f7f8 50%, #eceeef 75%);
   background-size: 200% 100%;
-  animation: ${shimmer} 1.4s infinite linear;
+  animation: ${shimmer} 1.2s infinite linear;
 `;
 
 const SpinnerWrapper = styled.div`
@@ -50,14 +51,13 @@ const Spinner = styled.div`
   animation: ${spin} 0.8s linear infinite;
 `;
 
-const StyledImage = styled.img`
+const MotionImage = styled(motion.img)`
   width: 100%;
+  height: auto;
   max-height: 480px;
   object-fit: cover;
   display: block;
   border-radius: 16px;
-  opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
-  transition: opacity 0.25s ease;
 `;
 
 function CatImage({ src, alt }) {
@@ -74,12 +74,23 @@ function CatImage({ src, alt }) {
         </>
       )}
 
-      <StyledImage
-        src={src}
-        alt={alt}
-        $loaded={imageLoaded}
-        onLoad={() => setImageLoaded(true)}
-      />
+      <AnimatePresence mode="wait">
+        {src && (
+          <MotionImage
+            key={src}
+            src={src}
+            alt={alt}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{
+              opacity: imageLoaded ? 1 : 0,
+              scale: imageLoaded ? 1 : 1.03,
+            }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.10, ease: "easeOut" }}
+            onLoad={() => setImageLoaded(true)}
+          />
+        )}
+      </AnimatePresence>
     </ImageWrapper>
   );
 }

@@ -14,6 +14,10 @@ const Page = styled.div`
   min-height: 100vh;
   background: #eceeef;
   padding: 32px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 const Container = styled.div`
@@ -26,8 +30,12 @@ const CardContainer = styled.div`
   border-radius: 24px;
   border: 1px solid #d6dbde;
   padding: 24px;
-`;
 
+  @media (max-width: 768px) {
+    padding: 16px;
+    border-radius: 16px;
+  }
+`;
 function HomeView() {
   const { cat, loading, error, loadCat } = useCats();
   const { breeds } = useBreeds();
@@ -90,6 +98,7 @@ function HomeView() {
                 onToggleFavorite={handleToggleFavorite}
                 isFavorite={cat ? isFavorite(cat.id) : false}
                 selectedBreedData={selectedBreedData}
+                selectedBreed={selectedBreed}
               />
             </>
           )}

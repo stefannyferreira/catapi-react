@@ -5,13 +5,10 @@ const Container = styled.div`
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
-`;
 
-const Select = styled.select`
-  flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid #d6dbde;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Button = styled.button`
@@ -21,6 +18,17 @@ const Button = styled.button`
   background: #0077b2;
   color: white;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const Select = styled.select`
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #d6dbde;
 `;
 
 function ControlsBar({ breeds, selectedBreed, onSelectBreed, onSearch }) {

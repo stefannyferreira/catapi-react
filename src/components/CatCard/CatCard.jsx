@@ -40,6 +40,10 @@ const Actions = styled.div`
   gap: 12px;
   margin-top: 20px;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Button = styled.button`
@@ -50,6 +54,10 @@ const Button = styled.button`
   color: #002233;
   cursor: pointer;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const PrimaryButton = styled(Button)`
@@ -66,6 +74,7 @@ function CatCard({
   onToggleFavorite,
   isFavorite,
   selectedBreedData,
+  selectedBreed,
 }) {
   const { t } = useTranslation("CatCard");
 
@@ -122,7 +131,7 @@ function CatCard({
         )}
 
         <Actions>
-          <PrimaryButton type="button" onClick={onNext}>
+          <PrimaryButton type="button" onClick={() => onNext(selectedBreed)}>
             {t("nextCat")}
           </PrimaryButton>
 
